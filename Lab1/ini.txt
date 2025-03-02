@@ -1,1 +1,48 @@
-Numbers go brrr
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+// Custom atoi function
+int my_atoi(const char *str) {
+    int result = 0, sign = 1;
+    while (*str == ' ' || *str == '\t') 
+     str++;
+    if (*str == '-' || *str == '+') {
+        if (*str == '-') sign = -1;
+        str++;
+    }
+    while (*str >= '0' && *str <= '9') {
+        result = result * 10 + (*str - '0');
+        str++;
+    }
+    
+    return sign * result;
+}
+
+int main() {
+    FILE *file = fopen("in.txt", "r");
+    if (file == NULL) {
+        printf("Error");
+        return 1;
+    }
+    
+    char line[256];
+    int total_sum = 0;
+    while (fgets(line, sizeof(line), file)) {
+        int sum = 0;
+        char *ptr = line;
+        while (*ptr) {
+            while (*ptr && !isdigit(*ptr) && *ptr != '-' && *ptr != '+') 
+             ptr++;
+            if (*ptr) {
+                sum += my_atoi(ptr);
+                while (*ptr && (isdigit(*ptr) || *ptr == '-' || *ptr == '+'))
+                 ptr++;
+            }
+        }
+        total_sum += sum;
+    }
+    printf("Total Sum: %d\n", total_sum);
+    fclose(file);
+    return 0;
+}

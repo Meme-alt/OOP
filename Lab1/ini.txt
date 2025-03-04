@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-// Custom atoi function
 int my_atoi(const char *str) {
     int result = 0, sign = 1;
     while (*str == ' ' || *str == '\t') 
